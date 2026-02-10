@@ -72,13 +72,15 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
             ->name('users.approve')
             ->middleware('role:owner'); // STRICTLY OWNER
 
-        // Log Aktivitas (Index & Export)
-        Route::get('/log-aktivitas', [LogAktivitasController::class, 'index'])->name('log-aktivitas.index');
-        Route::get('/log-aktivitas/export', [LogAktivitasController::class, 'export'])->name('log-aktivitas.export');
-
         // Hapus user
         Route::delete('/users/{user}', [UserController::class, 'destroy'])
             ->name('users.destroy');
+    });
+
+    // Log Aktivitas (Owner, Admin, Petugas)
+    Route::middleware(['role:owner,admin,petugas'])->group(function () {
+        Route::get('/log-aktivitas', [LogAktivitasController::class, 'index'])->name('log-aktivitas.index');
+        Route::get('/log-aktivitas/export', [LogAktivitasController::class, 'export'])->name('log-aktivitas.export');
     });
 });
 

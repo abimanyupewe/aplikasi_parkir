@@ -42,6 +42,9 @@ class DashboardController extends Controller
         $totalKapasitas = AreaParkir::sum('kapasitas');
         $totalTerisi = AreaParkir::sum('terisi');
 
+        // Total Pendapatan
+        $totalPendapatan = Transaksi::where('status', 'keluar')->sum('biaya');
+
         // Transaksi hari ini
         $transaksiHariIni = Transaksi::whereDate('waktu_masuk', today())->count();
 
@@ -75,6 +78,7 @@ class DashboardController extends Controller
             'stats' => [
                 'totalKapasitas' => $totalKapasitas,
                 'totalTerisi' => $totalTerisi,
+                'totalPendapatan' => $totalPendapatan,
                 'totalTersedia' => $totalKapasitas - $totalTerisi,
                 'transaksiHariIni' => $transaksiHariIni,
                 'kendaraanParkir' => $kendaraanParkir,

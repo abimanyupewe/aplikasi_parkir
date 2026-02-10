@@ -1,5 +1,5 @@
 import { Head, Link, usePage, useForm, router } from '@inertiajs/react';
-import { Car, Bike, MapPin, TrendingUp, Users, Clock, ArrowRight, LogIn, Printer, Search, LogOut } from 'lucide-react';
+import { Car, Bike, MapPin, TrendingUp, Users, Clock, ArrowRight, LogIn, Printer, Search, LogOut, DollarSign } from 'lucide-react';
 import { useState, FormEventHandler } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +16,7 @@ import ReceiptTicket from '@/components/receipt-ticket';
 interface DashboardStats {
     totalKapasitas: number;
     totalTerisi: number;
+    totalPendapatan: number;
     totalTersedia: number;
     transaksiHariIni: number;
     kendaraanParkir: number;
@@ -152,6 +153,26 @@ function AdminDashboard({ stats, areas, transaksiTerbaru }: DashboardProps) {
                         <p className="text-xs text-muted-foreground">kendaraan masuk</p>
                     </CardContent>
                 </Card>
+
+                {/* Total Pendapatan (Owner Only) */}
+                {((usePage<SharedData>().props.auth.user as any)?.role === 'owner') && (
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-medium text-muted-foreground">
+                                Total Pendapatan
+                            </CardTitle>
+                            <DollarSign className="size-4 text-green-500" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">
+                                Rp {stats.totalPendapatan?.toLocaleString('id-ID') ?? 0}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                akumulasi pendapatan
+                            </p>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
 
             {/* Main Content */}

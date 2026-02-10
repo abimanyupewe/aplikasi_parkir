@@ -53,6 +53,12 @@ const allNavItems: RoleNavItem[] = [
         icon: Users,
         roles: ['owner', 'admin'], // Hanya owner dan admin
     },
+    {
+        title: 'Area Parkir',
+        href: '/area-parkir',
+        icon: MapPin,
+        roles: ['owner', 'admin'],
+    },
 
 
     {
@@ -65,7 +71,7 @@ const allNavItems: RoleNavItem[] = [
         title: 'Log Aktivitas',
         href: '/log-aktivitas',
         icon: FileText,
-        roles: ['owner', 'admin'],
+        roles: ['owner', 'admin', 'petugas'],
     },
 ];
 
