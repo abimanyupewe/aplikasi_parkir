@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\AreaParkirController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\KendaraanController;
+use App\Http\Controllers\LogAktivitasController;
+use App\Http\Controllers\TarifController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -54,15 +58,23 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
         Route::get('/users', [UserController::class, 'index'])
             ->name('users.index');
 
-        // Approve user (hanya owner, tapi di sini owner+admin bisa akses page, admin mungkin restricted di controller level?)
-        // User request: "buat untuk petugas dan admin baru (register) baru terdaftar menunggu aproval dari owner"
-        // Jadi approval action sebaiknya hanya Owner? Atau admin boleh?
-        // "menunggu aproval dari owner" -> implied only owner. I'll restriction approval to owner ONLY.
+        // CRUD Area Parkir
+        Route::resource('area-parkir', AreaParkirController::class);
 
-        // Action Approve
+        // CRUD Kendaraan
+        Route::resource('kendaraan', KendaraanController::class);
+
+        // CRUD Tarif
+        Route::resource('tarif', TarifController::class);
+
+        // Approve user (hanya owner)
         Route::post('/users/{user}/approve', [UserController::class, 'approve'])
             ->name('users.approve')
             ->middleware('role:owner'); // STRICTLY OWNER
+
+        // Log Aktivitas (Index & Export)
+        Route::get('/log-aktivitas', [LogAktivitasController::class, 'index'])->name('log-aktivitas.index');
+        Route::get('/log-aktivitas/export', [LogAktivitasController::class, 'export'])->name('log-aktivitas.export');
 
         // Hapus user
         Route::delete('/users/{user}', [UserController::class, 'destroy'])

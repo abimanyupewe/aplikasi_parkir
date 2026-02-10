@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AreaParkir;
+use App\Models\LogAktivitas;
+use App\Models\Tarif;
 use App\Models\Transaksi;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -130,6 +132,13 @@ class TransaksiController extends Controller
 
             // Step 5: Increment jumlah kendaraan yang terisi
             $area->increment('terisi');
+
+            // Step 5b: Log Aktivitas
+            LogAktivitas::create([
+                'id_user' => auth()->id(),
+                'aksi' => 'Check-In',
+                'deskripsi' => "Check-in kendaraan {$validated['plat_nomor']} ({$validated['jenis_kendaraan']}) di area {$area->nama_area}. Tiket: {$kodeTiket}",
+            ]);
         });
 
         // Step 6: Return redirect dengan flash message
@@ -181,7 +190,11 @@ class TransaksiController extends Controller
             $durasiJam = max(1, $durasiJam);
 
             // Hitung Biaya
-            $tarifPerJam = ($lockedTransaksi->jenis_kendaraan === 'mobil') ? 5000 : 2000;
+            // Ambil tarif dari database berdasarkan jenis kendaraan
+            $tarif = Tarif::where('jenis_kendaraan', $lockedTransaksi->jenis_kendaraan)->first();
+            // Fallback jika tidak ada data tarif (defensive programming)
+            $tarifPerJam = $tarif ? $tarif->tarif_per_jam : ($lockedTransaksi->jenis_kendaraan === 'mobil' ? 5000 : 2000);
+
             $totalBiaya = $durasiJam * $tarifPerJam;
 
             // Update Transaksi
@@ -199,6 +212,13 @@ class TransaksiController extends Controller
             if ($area && $area->terisi > 0) {
                 $area->decrement('terisi');
             }
+
+            // Log Aktivitas Check-Out
+            LogAktivitas::create([
+                'id_user' => auth()->id(),
+                'aksi' => 'Check-Out',
+                'deskripsi' => "Check-out kendaraan {$lockedTransaksi->plat_nomor}. Durasi: {$durasiJam} jam. Biaya: Rp {$totalBiaya}",
+            ]);
         });
 
         // Refresh model instance untuk mendapatkan data terbaru dari DB (biaya, waktu_keluar)

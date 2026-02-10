@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, List, LogIn, Users } from 'lucide-react';
+import { BookOpen, Car, DollarSign, FileText, Folder, LayoutGrid, List, LogIn, MapPin, Users } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -52,6 +52,20 @@ const allNavItems: RoleNavItem[] = [
         href: '/users',
         icon: Users,
         roles: ['owner', 'admin'], // Hanya owner dan admin
+    },
+
+
+    {
+        title: 'Atur Tarif',
+        href: '/tarif',
+        icon: DollarSign,
+        roles: ['owner', 'admin'],
+    },
+    {
+        title: 'Log Aktivitas',
+        href: '/log-aktivitas',
+        icon: FileText,
+        roles: ['owner', 'admin'],
     },
 ];
 
