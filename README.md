@@ -2,6 +2,21 @@
 
 Sistem manajemen parkir berbasis web untuk mengelola operasional parkir kendaraan. Dibangun dengan **Laravel 12** (backend) dan **React 19 + TypeScript** (frontend) menggunakan Inertia.js SPA.
 
+## Tujuan dan Fungsi Project
+
+Aplikasi Parkir (ParkirApp) dirancang khusus untuk memodernisasi dan mendigitalisasi operasional parkir kendaraan (motor dan mobil). Sistem ini berfungsi sebagai pusat kendali untuk mencatat kendaraan yang masuk dan keluar, menghitung biaya parkir secara otomatis berdasarkan durasi, serta memberikan laporan pendapatan yang akurat dan transparan secara real-time.
+
+## Kelebihan dan Kemudahan
+
+- **Efisien & Cepat**: Proses check-in dan check-out yang efisien, membantu meminimalkan antrean di gerbang parkir.
+- **Akurat & Otomatis**: Perhitungan tarif dilakukan secara otomatis oleh sistem, mencegah *human error* dan memastikan transparansi biaya.
+- **Pessimistic Locking**: Mencegah konflik data (race condition) saat banyak transaksi terjadi di saat bersamaan.
+- **Mudah Digunakan (User Friendly)**: Antarmuka yang modern (React + shadcn/ui), responsif, dan mendukung fitur **Dark Mode** untuk kenyamanan mata pengguna.
+- **Akses Fleksibel**: Berbasis SPA (Single Page Application), dapat diakses di berbagai perangkat dengan navigasi halaman yang sangat cepat tanpa reload.
+- **Transparansi Publik**: Tersedia halaman pengecekan parkir publik di mana pelanggan bisa mengecek status kendaraan dan biaya parkir mereka.
+- **Keamanan Terjamin**: Dilengkapi dengan sistem persetujuan akun (Account Approval) untuk staf baru dan opsi Autentikasi Dua Faktor (2FA).
+
+
 ## Fitur
 
 - **Manajemen Area Parkir** — Kelola zona parkir dengan kapasitas dan status real-time
